@@ -4,6 +4,7 @@ import (
 	"errors"
 	"reflect"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -109,6 +110,13 @@ func (r *Row) ReadStruct(ptr interface{}) error {
 				return err
 			}
 			fieldV.SetString(value)
+		case reflect.Slice:
+			value, err := cell.FormattedValue()
+			if err != nil {
+				return err
+			}
+			commaSeparatedList := strings.Split(value, ",")
+			fieldV.Set(reflect.ValueOf(commaSeparatedList))
 		case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
 			value, err := cell.Int64()
 			if err != nil {
