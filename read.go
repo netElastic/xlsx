@@ -123,6 +123,12 @@ func (r *Row) ReadStruct(ptr interface{}) error {
 				return err
 			}
 			fieldV.SetInt(value)
+		case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
+			value, err := cell.Int64()
+			if err != nil {
+				return err
+			}
+			fieldV.SetUint(uint64(value))
 		case reflect.Float64:
 			value, err := cell.Float()
 			if err != nil {
