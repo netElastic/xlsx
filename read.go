@@ -115,7 +115,12 @@ func (r *Row) ReadStruct(ptr interface{}) error {
 			if err != nil {
 				return err
 			}
-			commaSeparatedList := strings.Split(value, ",")
+			commaSeparatedList := make([]string, 0)
+			if len(value) > 0 {
+				commaSeparatedList = strings.Split(value, ",")
+			}
+			//curList := reflect.MakeSlice(reflect.SliceOf(field.Type), len(commaSeparatedList), len(commaSeparatedList))
+
 			fieldV.Set(reflect.ValueOf(commaSeparatedList))
 		case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
 			value, err := cell.Int64()
